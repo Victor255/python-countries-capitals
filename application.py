@@ -1,3 +1,178 @@
-# Aqui escribe tu codigo
+"""COUNTRIES AND CAPITALS"""
 
-print "Hello World"
+#!/usr/bin/env python
+# coding:utf8 
+
+import os
+import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+
+class countryandcap(object):
+    """Countries and Capitals"""
+
+    def __init__(self):
+        self.country = {}
+
+    def addcountry(self):
+        """Add countries and capitals"""
+        os.system("clear")
+        CONSTANT = True
+        while CONSTANT == True:
+            COUNTRIES = raw_input("Insert a country: ")
+            COUNTRIES = COUNTRIES.title()
+            try:
+                TEXT = COUNTRIES.decode("utf-8")
+                VAR = True
+                for i in TEXT:
+                    if i.isalpha() == True or i == " ":
+                        if VAR == True:
+                            VAR = True
+                    else:
+                        VAR = False
+                if VAR == False:
+                    print "Invalid Country"
+                    CONSTANT = True
+                elif len(COUNTRIES) <= 2:
+                    print "Invalid Country"
+                    CONSTANT = True
+                else:
+                    CONSTANT = False
+
+            except (ValueError):
+                print "Invalid Country"
+                CONSTANT = False
+        CAPIT = True
+        while CAPIT == True:
+            CAPITAL = raw_input("Insert capital: ")
+            CAPITAL = CAPITAL.title()
+            try:
+                TEXT = CAPITAL.decode("utf-8")
+                VAR = True
+                for i in TEXT:
+                    if i.isalpha() == True or i == " ":
+                        if VAR == True:
+                            VAR = True
+                    else:
+                        VAR = False
+                if VAR == False: 
+                    print "Invalid Capital" 
+                    CAPIT = True
+                elif len(CAPITAL) <= 2:
+                    print "Invalid Capital"
+                    CAPIT = True
+                else:
+                    CAPIT = False
+            except (ValueError):
+                print "Invalid Capital"
+                CAPIT = False
+        print "YOU HAVE ADDED CORRECTLY"
+        self.country[COUNTRIES] = CAPITAL
+        self.anothercountry()
+
+    def anothercountry(self):
+        """Ask if the user wants to add another country and capital"""
+        DIFERENTS = True
+        while DIFERENTS == True:
+            OTHERS = raw_input("Do you want to add another country? yes or no: ")
+            OTHERS = OTHERS.lower()
+            if OTHERS == "yes":
+                self.addcountry()
+            elif OTHERS == "no":
+                os.system("clear")
+                self.menus()
+            else:
+                print "Insert only yes or no"
+
+    def countries(self):
+        """Shows the list of Countries"""
+        os.system("clear")
+        print "COUNTRIES"
+        for i in self.country:
+            print "*", i
+        raw_input("Press enter to continue")
+        os.system("clear")
+        self.menus()
+
+    def capitals(self):
+        """Shows the list of Capitals"""
+        os.system("clear")
+        print "CAPITALS"
+        for i in self.country:
+            print "*", self.country[i]
+        raw_input("Press enter to continue")
+        os.system("clear")
+        self.menus()
+
+    def all(self):
+        """Shows the list of Countries and Capitals"""
+        os.system("clear")
+        print "COUNTRIES AND CAPITALS"
+        for i in self.country:
+            print "\n*", i, "*", self.country[i]
+        raw_input("Press enter to continue")
+        os.system("clear")
+        self.menus()
+
+    def allordered(self):
+        """Shows the list of Countries and Capitals Ordered"""
+        os.system("clear")
+        print "List of all Countries with Capitals in Order"
+        for key, value in sorted(self.country.iteritems(), key=lambda (k, v): (v, k)):
+            print "%s - %s" % (key, value)
+        raw_input("Press enter to continue")
+        os.system("clear")
+        self.menus()
+
+    def instructions(self):
+        """Instructions"""
+        os.system("clear")
+        print "INSTRUCTIONS"
+        print """1- If you want to add a country and capital, insert the word "Country" """
+        print """2- If you want the list of countries added, insert the word "Countries" """
+        print """3- If you want the list of capitals added, insert the word "Capitals" """
+        print """4- If you want both countries and capitals added, insert the word "All" """
+        print """5- If you want both alphabetically ordered, insert the word "AllOrdered" """
+        print """6- If you want to send list of countries and capitals to lgarcia@cognits.co,
+    insert the word "AllMail" """
+        print """7- If you want to close the program, insert the word "exit" """
+
+
+    def menus(self):
+        """provide the menu"""
+        self.instructions()
+        menu = True
+        while menu == True:
+            option = raw_input(" Insert here the word:  ")
+            option = option.lower()
+            if option == "country":
+                self.addcountry()
+                menu = False
+            elif option == "countries":
+                self.countries()
+                menu = False
+            elif option == "capitals":
+                self.capitals()
+                menu = False
+            elif option == "all":
+                self.all()
+                menu = False
+            elif option == "allordered" or option == "all ordered":
+                self.allordered()
+                menu = False
+            elif option == "allmail" or option == "all mail":
+                self.sendmail()
+                menu = False
+            elif option == "exit":
+                print "Thank you for using us"
+                exit()
+            else:
+                print "please insert a valid option"
+                menu = True
+                os.system("clear")
+                self.instructions()
+                print "please insert a valid option"
+
+
+ALL = countryandcap()
+ALL.menus()
