@@ -1,7 +1,8 @@
 """COUNTRIES AND CAPITALS"""
 
-#!/usr/bin/env python
+# coding=utf-8
 # coding:utf8 
+# -*- coding: 850 -*-
 
 import os
 import sys
@@ -23,42 +24,44 @@ class countryandcap(object):
             COUNTRIES = raw_input("Insert a country: ")
             COUNTRIES = COUNTRIES.title()
             try:
-                TEXT = COUNTRIES.decode("utf-8")
+                TEXT = COUNTRIES.decode("utf-8") #turn into a string
                 VAR = True
                 for i in TEXT:
-                    if i.isalpha() == True or i == " ":
-                        if VAR == True:
+                    if i.isalpha() == True or i == " ": #if the string is alfhabet
+                        if VAR == True: #if variable is true
                             VAR = True
                     else:
-                        VAR = False
-                if VAR == False:
+                        VAR = False #else, make it false
+                if VAR == False: #if variable is false
                     print "Invalid Country"
                     CONSTANT = True
+                    #convert the original variable in true so it can repeat itself
                 elif len(COUNTRIES) <= 2:
                     print "Invalid Country"
-                    CONSTANT = True
+                    CONSTANT = True #if not, kill this part and go on
                 else:
                     CONSTANT = False
 
             except (ValueError):
-                print "Invalid Country"
+                print "Invalid Country" #just verifies, any possible mistake
                 CONSTANT = False
         CAPIT = True
         while CAPIT == True:
-            CAPITAL = raw_input("Insert capital: ")
+            CAPITAL = raw_input("Insert capital: ") #asks to insert the item
             CAPITAL = CAPITAL.title()
             try:
-                TEXT = CAPITAL.decode("utf-8")
-                VAR = True
+                TEXT = CAPITAL.decode("utf-8") #turn into a string
+                VAR = True #another variable to verify
                 for i in TEXT:
-                    if i.isalpha() == True or i == " ":
-                        if VAR == True:
-                            VAR = True
+                    if i.isalpha() == True or i == " ": #if the string is alfhabet
+                        if VAR == True: #if variable is true
+                            VAR = True #make it true
                     else:
-                        VAR = False
-                if VAR == False: 
+                        VAR = False #else, make it false
+                if VAR == False: #if variable is false
                     print "Invalid Capital" 
                     CAPIT = True
+                    #convert the original variable in true so it can repeat itself
                 elif len(CAPITAL) <= 2:
                     print "Invalid Capital"
                     CAPIT = True
@@ -77,9 +80,9 @@ class countryandcap(object):
         while DIFERENTS == True:
             OTHERS = raw_input("Do you want to add another country? yes or no: ")
             OTHERS = OTHERS.lower()
-            if OTHERS == "yes":
+            if OTHERS == "yes" or OTHERS == "y":
                 self.addcountry()
-            elif OTHERS == "no":
+            elif OTHERS == "no" or OTHERS == "n":
                 os.system("clear")
                 self.menus()
             else:
@@ -89,8 +92,8 @@ class countryandcap(object):
         """Shows the list of Countries"""
         os.system("clear")
         print "COUNTRIES"
-        for i in self.country:
-            print "-", i
+        for i in self.country: #lists the countries
+            print "-", i #prints a star and the countries
         raw_input("Press enter to continue")
         os.system("clear")
         self.menus()
@@ -99,8 +102,8 @@ class countryandcap(object):
         """Shows the list of Capitals"""
         os.system("clear")
         print "CAPITALS"
-        for i in self.country:
-            print "*", self.country[i]
+        for i in self.country: #list of capitals
+            print "-", self.country[i] #prints a star and the capitals
         raw_input("Press enter to continue")
         os.system("clear")
         self.menus()
@@ -109,8 +112,8 @@ class countryandcap(object):
         """Shows the list of Countries and Capitals"""
         os.system("clear")
         print "COUNTRIES AND CAPITALS"
-        for i in self.country:
-            print "\n-", i, "-", self.country[i]
+        for i in self.country: #list of capitals
+            print "\n-", i, "-", self.country[i] #prints a dash and the capitals
         raw_input("Press enter to continue")
         os.system("clear")
         self.menus()
@@ -120,7 +123,7 @@ class countryandcap(object):
         os.system("clear")
         print "List of all Countries with Capitals in Order"
         for key, value in sorted(self.country.iteritems(), key=lambda (k, v): (v, k)):
-            print "%s - %s" % (key, value)
+            print "%s - %s" % (key, value) #internet way to sort a dic by its valu
         raw_input("Press enter to continue")
         os.system("clear")
         self.menus()
@@ -142,19 +145,22 @@ class countryandcap(object):
         """send the email"""
         USERNAME = "tagbar95@gmail.com"
         PASSWORD = getpass.getpass("Pasword: ")
-        ADRESS = "victorinojaja@hotmail.com"
+        ADRESS = "lgarcia@cognits.co"
         BODY = "Countries and Capitals: "
 
+        # Body of email
         for key, item in self.country.items():
             BODY += """
             """ + str(key) + " - " + str(item)
 
+        # Forming the body of email
         MSG = MIMEMultipart()
         MSG['From'] = USERNAME
         MSG['To'] = ADRESS
         MSG['Subject'] = "Countries and capitals"
         MSG.attach(MIMEText(BODY, 'plain'))
 
+        # This try controls if the email was sent
         try:
             SERVER = smtplib.SMTP("smtp.gmail.com", 587)
             SERVER.starttls()
@@ -198,7 +204,7 @@ class countryandcap(object):
                 print "Thank you for using us"
                 exit()
             else:
-                print "please insert a valid option"
+                print "Please insert a valid Option"
                 menu = True
                 os.system("clear")
                 self.instructions()
