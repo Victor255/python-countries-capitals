@@ -4,7 +4,8 @@
 # coding:utf8 
 
 import os
-import smtplib
+import sys
+import smtplib, getpass
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 
@@ -89,7 +90,7 @@ class countryandcap(object):
         os.system("clear")
         print "COUNTRIES"
         for i in self.country:
-            print "*", i
+            print "-", i
         raw_input("Press enter to continue")
         os.system("clear")
         self.menus()
@@ -109,7 +110,7 @@ class countryandcap(object):
         os.system("clear")
         print "COUNTRIES AND CAPITALS"
         for i in self.country:
-            print "\n*", i, "*", self.country[i]
+            print "\n-", i, "-", self.country[i]
         raw_input("Press enter to continue")
         os.system("clear")
         self.menus()
@@ -128,42 +129,72 @@ class countryandcap(object):
         """Instructions"""
         os.system("clear")
         print "INSTRUCTIONS"
-        print """1- If you want to add a country and capital, insert the word "Country" """
-        print """2- If you want the list of countries added, insert the word "Countries" """
-        print """3- If you want the list of capitals added, insert the word "Capitals" """
-        print """4- If you want both countries and capitals added, insert the word "All" """
-        print """5- If you want both alphabetically ordered, insert the word "AllOrdered" """
+        print """1- If you want to add a country and capital, insert "Country" """
+        print """2- If you want the list of countries added, insert "Countries" """
+        print """3- If you want the list of capitals added, insert "Capitals" """
+        print """4- If you want both countries and capitals added, insert "All" """
+        print """5- If you want both alphabetically ordered, insert "AllOrdered" """
         print """6- If you want to send list of countries and capitals to lgarcia@cognits.co,
-    insert the word "AllMail" """
-        print """7- If you want to close the program, insert the word "exit" """
+    insert the word "Sendmail" """
+        print """7- If you want to close the program, insert "exit" """
 
+    def sendmail(self):
+        """send the email"""
+        USERNAME = "tagbar95@gmail.com"
+        PASSWORD = getpass.getpass("Pasword: ")
+        ADRESS = "victorinojaja@hotmail.com"
+        BODY = "Countries and Capitals: "
+
+        for key, item in self.country.items():
+            BODY += """
+            """ + str(key) + " - " + str(item)
+
+        MSG = MIMEMultipart()
+        MSG['From'] = USERNAME
+        MSG['To'] = ADRESS
+        MSG['Subject'] = "Countries and capitals"
+        MSG.attach(MIMEText(BODY, 'plain'))
+
+        try:
+            SERVER = smtplib.SMTP("smtp.gmail.com", 587)
+            SERVER.starttls()
+            SERVER.login(USERNAME, PASSWORD)
+            text = MSG.as_string()
+            SERVER.sendmail(USERNAME, ADRESS, text)
+            SERVER.quit()
+            print "Email sent correctly"
+            raw_input("Press enter to continue...")
+            self.menus()
+        except ValueError:
+            print "Error ocurred"
+            self.menus()
 
     def menus(self):
         """provide the menu"""
         self.instructions()
         menu = True
         while menu == True:
-            option = raw_input(" Insert here the word:  ")
+            option = raw_input(" Insert here the option:  ")
             option = option.lower()
-            if option == "country":
+            if option == "country" or option == "1":
                 self.addcountry()
                 menu = False
-            elif option == "countries":
+            elif option == "countries" or option == "2":
                 self.countries()
                 menu = False
-            elif option == "capitals":
+            elif option == "capitals" or option == "3":
                 self.capitals()
                 menu = False
-            elif option == "all":
+            elif option == "all" or option == "4":
                 self.all()
                 menu = False
-            elif option == "allordered" or option == "all ordered":
+            elif option == "allordered" or option == "all ordered" or option == "5":
                 self.allordered()
                 menu = False
-            elif option == "allmail" or option == "all mail":
+            elif option == "sendmail" or option == "send mail" or option == "6":
                 self.sendmail()
                 menu = False
-            elif option == "exit":
+            elif option == "exit" or option == "7":
                 print "Thank you for using us"
                 exit()
             else:
@@ -172,7 +203,6 @@ class countryandcap(object):
                 os.system("clear")
                 self.instructions()
                 print "please insert a valid option"
-
 
 ALL = countryandcap()
 ALL.menus()
