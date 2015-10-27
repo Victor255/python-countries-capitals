@@ -1,23 +1,22 @@
 """COUNTRIES AND CAPITALS"""
 
 # coding=utf-8
-# coding:utf8 
+# coding:utf8
 # -*- coding: 850 -*-
 
 import os
-import sys
 import smtplib, getpass
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 
-class countryandcap(object):
-    """Countries and Capitals"""
+class countriesandcapitals(object):
+    """COUNTRIES AND CAPITALS"""
 
     def __init__(self):
         self.country = {}
 
     def addcountry(self):
-        """Add countries and capitals"""
+        """ADD COUNTRIES AND CAPITALS"""
         os.system("clear")
         CONSTANT = True
         while CONSTANT == True:
@@ -42,7 +41,7 @@ class countryandcap(object):
                 else:
                     CONSTANT = False
 
-            except (ValueError):
+            except ValueError:
                 print "Invalid Country" #just verifies, any possible mistake
                 CONSTANT = False
         CAPIT = True
@@ -59,7 +58,7 @@ class countryandcap(object):
                     else:
                         VAR = False #else, make it false
                 if VAR == False: #if variable is false
-                    print "Invalid Capital" 
+                    print "Invalid Capital"
                     CAPIT = True
                     #convert the original variable in true so it can repeat itself
                 elif len(CAPITAL) <= 2:
@@ -67,7 +66,7 @@ class countryandcap(object):
                     CAPIT = True
                 else:
                     CAPIT = False
-            except (ValueError):
+            except ValueError:
                 print "Invalid Capital"
                 CAPIT = False
         print "YOU HAVE ADDED CORRECTLY"
@@ -75,10 +74,10 @@ class countryandcap(object):
         self.anothercountry()
 
     def anothercountry(self):
-        """Ask if the user wants to add another country and capital"""
+        """ASK IF THE USER WANTS TO ADD ANOTHR COUNTRY AND CAPITAL"""
         DIFERENTS = True
         while DIFERENTS == True:
-            OTHERS = raw_input("Do you want to add another country? yes or no: ")
+            OTHERS = raw_input("\nDo you want to add another country? yes or no: ")
             OTHERS = OTHERS.lower()
             if OTHERS == "yes" or OTHERS == "y":
                 self.addcountry()
@@ -89,60 +88,62 @@ class countryandcap(object):
                 print "Insert only yes or no"
 
     def countries(self):
-        """Shows the list of Countries"""
+        """SHOWS THE LIST OF COUNTRIES"""
         os.system("clear")
         print "COUNTRIES"
         for i in self.country: #lists the countries
             print "-", i #prints a star and the countries
-        raw_input("Press enter to continue")
+        raw_input("\nPress enter to continue")
         os.system("clear")
         self.menus()
 
     def capitals(self):
-        """Shows the list of Capitals"""
+        """SHOWS THE LIST OF CAPITALS"""
         os.system("clear")
         print "CAPITALS"
         for i in self.country: #list of capitals
             print "-", self.country[i] #prints a star and the capitals
-        raw_input("Press enter to continue")
+        raw_input("\nPress enter to continue")
         os.system("clear")
         self.menus()
 
     def all(self):
-        """Shows the list of Countries and Capitals"""
+        """SHOWS THE LIST OF COUNTRIES AND CAPITALS"""
         os.system("clear")
         print "COUNTRIES AND CAPITALS"
         for i in self.country: #list of capitals
             print "\n-", i, "-", self.country[i] #prints a dash and the capitals
-        raw_input("Press enter to continue")
+        raw_input("\nPress enter to continue")
         os.system("clear")
         self.menus()
 
     def allordered(self):
-        """Shows the list of Countries and Capitals Ordered"""
+        """SHOWS THE LIST OF COUNTRIES AND CAPITALS ORDERED"""
         os.system("clear")
         print "List of all Countries with Capitals in Order"
         for key, value in sorted(self.country.iteritems(), key=lambda (k, v): (v, k)):
             print "%s - %s" % (key, value) #internet way to sort a dic by its valu
-        raw_input("Press enter to continue")
+        raw_input("\nPress enter to continue")
         os.system("clear")
         self.menus()
 
     def instructions(self):
-        """Instructions"""
+        """SHOWS THE INSTRUCTIONS"""
         os.system("clear")
-        print "INSTRUCTIONS"
-        print """1- If you want to add a country and capital, insert "Country" """
-        print """2- If you want the list of countries added, insert "Countries" """
-        print """3- If you want the list of capitals added, insert "Capitals" """
-        print """4- If you want both countries and capitals added, insert "All" """
-        print """5- If you want both alphabetically ordered, insert "AllOrdered" """
+        print "______________________________________________________________________________"
+        print "                         Choose an Option                                     |"
+        print """1- If you want to add a country and capital, insert "COUNTRY"                 |"""
+        print """2- If you want the list of countries added, insert "COUNTRIES"                |"""
+        print """3- If you want the list of capitals added, insert "CAPITALS"                  |"""
+        print """4- If you want both countries and capitals added, insert "ALL"                |"""
+        print """5- If you want both alphabetically ordered, insert "AllORDERED"               |"""
         print """6- If you want to send list of countries and capitals to lgarcia@cognits.co,
-    insert the word "Sendmail" """
-        print """7- If you want to close the program, insert "exit" """
+    insert the word "SENDMAIL"                                                |"""
+        print """7- If you want to close the program, insert "EXIT"                            |"""
+        print "______________________________________________________________________________|"
 
     def sendmail(self):
-        """send the email"""
+        """SEND THE EMAIL"""
         USERNAME = "tagbar95@gmail.com"
         PASSWORD = getpass.getpass("Pasword: ")
         ADRESS = "lgarcia@cognits.co"
@@ -169,18 +170,18 @@ class countryandcap(object):
             SERVER.sendmail(USERNAME, ADRESS, text)
             SERVER.quit()
             print "Email sent correctly"
-            raw_input("Press enter to continue...")
+            raw_input("\nPress enter to continue...")
             self.menus()
         except ValueError:
             print "Error ocurred"
             self.menus()
 
     def menus(self):
-        """provide the menu"""
+        """MENU OF OPTIONS"""
         self.instructions()
         menu = True
         while menu == True:
-            option = raw_input(" Insert here the option:  ")
+            option = raw_input("\nInsert here the Option:  ")
             option = option.lower()
             if option == "country" or option == "1":
                 self.addcountry()
@@ -201,14 +202,14 @@ class countryandcap(object):
                 self.sendmail()
                 menu = False
             elif option == "exit" or option == "7":
-                print "Thank you for using us"
+                print "THANK AND BYE"
                 exit()
             else:
                 print "Please insert a valid Option"
                 menu = True
                 os.system("clear")
                 self.instructions()
-                print "please insert a valid option"
+                print "Please insert a valid Option"
 
-ALL = countryandcap()
+ALL = countriesandcapitals()
 ALL.menus()
