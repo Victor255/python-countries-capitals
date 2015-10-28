@@ -9,79 +9,82 @@ import smtplib, getpass
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 
-class countriesandcapitals(object):
+class CountriesAndCapitals(object):
     """COUNTRIES AND CAPITALS"""
 
     def __init__(self):
         self.country = {}
 
     def addcountry(self):
-        """ADD COUNTRIES AND CAPITALS"""
+        """ADD THE COUNTRIES"""
         os.system("clear")
-        CONSTANT = True
-        while CONSTANT == True:
-            COUNTRIES = raw_input("Insert a country: ")
-            COUNTRIES = COUNTRIES.title()
+        constant = True
+        while constant == True:
+            countries = raw_input("Insert a country: ")
+            countries = countries.title()
             try:
-                TEXT = COUNTRIES.decode("utf-8") #turn into a string
-                VAR = True
-                for i in TEXT:
+                text = countries.decode("utf-8") #turn into a string
+                var = True
+                for i in text:
                     if i.isalpha() == True or i == " ": #if the string is alfhabet
-                        if VAR == True: #if variable is true
-                            VAR = True
+                        if var == True: #if variable is true
+                            var = True
                     else:
-                        VAR = False #else, make it false
-                if VAR == False: #if variable is false
+                        var = False #else, make it false
+                if var == False: #if variable is false
                     print "Invalid Country"
-                    CONSTANT = True
+                    constant = True
                     #convert the original variable in true so it can repeat itself
-                elif len(COUNTRIES) <= 2:
+                elif len(countries) <= 2:
                     print "Invalid Country"
-                    CONSTANT = True #if not, kill this part and go on
+                    constant = True #if not, kill this part and go on
                 else:
-                    CONSTANT = False
-
+                    constant = False
+                    self.addcapital(countries)
             except ValueError:
                 print "Invalid Country" #just verifies, any possible mistake
-                CONSTANT = False
-        CAPIT = True
-        while CAPIT == True:
-            CAPITAL = raw_input("Insert capital: ") #asks to insert the item
-            CAPITAL = CAPITAL.title()
+                constant = False
+
+    def addcapital(self, countries):
+        """ADD THE CAPITALS"""
+        capit = True
+        while capit == True:
+            capital = raw_input("Insert capital: ") #asks to insert the item
+            capital = capital.title()
             try:
-                TEXT = CAPITAL.decode("utf-8") #turn into a string
-                VAR = True #another variable to verify
-                for i in TEXT:
+                text = capital.decode("utf-8") #turn into a string
+                var = True #another variable to verify
+                for i in text:
                     if i.isalpha() == True or i == " ": #if the string is alfhabet
-                        if VAR == True: #if variable is true
-                            VAR = True #make it true
+                        if var == True: #if variable is true
+                            var = True #make it true
                     else:
-                        VAR = False #else, make it false
-                if VAR == False: #if variable is false
+                        var = False #else, make it false
+                if var == False: #if variable is false
                     print "Invalid Capital"
-                    CAPIT = True
+                    capit = True
                     #convert the original variable in true so it can repeat itself
-                elif len(CAPITAL) <= 2:
+                elif len(capital) <= 2:
                     print "Invalid Capital"
-                    CAPIT = True
+                    capit = True
                 else:
-                    CAPIT = False
+                    capit = False
             except ValueError:
                 print "Invalid Capital"
-                CAPIT = False
+                capit = False
         print "YOU HAVE ADDED CORRECTLY"
-        self.country[COUNTRIES] = CAPITAL
+        self.country[countries] = capital
         self.anothercountry()
 
     def anothercountry(self):
         """ASK IF THE USER WANTS TO ADD ANOTHR COUNTRY AND CAPITAL"""
-        DIFERENTS = True
-        while DIFERENTS == True:
-            OTHERS = raw_input("\nDo you want to add another country? yes or no: ")
-            OTHERS = OTHERS.lower()
-            if OTHERS == "yes" or OTHERS == "y":
+        diferents = True
+        while diferents == True:
+            others = raw_input("\nDo you want to add another country? yes or no: ")
+            others = others.lower()
+            if others == "yes" or others == "y":
                 self.addcountry()
-            elif OTHERS == "no" or OTHERS == "n":
+            elif others == "no" or others == "n":
                 os.system("clear")
                 self.menus()
             else:
@@ -144,31 +147,31 @@ class countriesandcapitals(object):
 
     def sendmail(self):
         """SEND THE EMAIL"""
-        USERNAME = "tagbar95@gmail.com"
-        PASSWORD = getpass.getpass("Pasword: ")
-        ADRESS = "lgarcia@cognits.co"
-        BODY = "Countries and Capitals: "
+        username = "tagbar95@gmail.com"  ##The username
+        password = getpass.getpass("Pasword: ") #Not showing the password
+        adress = "lgarcia@cognits.co" #the addressee of the email
+        body = "Countries and Capitals: " #this shows the subject in the email
 
-        # Body of email
+        # body of email
         for key, item in self.country.items():
-            BODY += """
+            body += """
             """ + str(key) + " - " + str(item)
 
         # Forming the body of email
-        MSG = MIMEMultipart()
-        MSG['From'] = USERNAME
-        MSG['To'] = ADRESS
-        MSG['Subject'] = "Countries and capitals"
-        MSG.attach(MIMEText(BODY, 'plain'))
+        msg = MIMEMultipart()
+        msg['From'] = username #This saves the mail of the sender
+        msg['To'] = adress #This saves the mail of the receiver
+        msg['Subject'] = "Countries and capitals" #This saves the subject
+        msg.attach(MIMEText(body, 'plain')) #This saves the message
 
         # This try controls if the email was sent
         try:
-            SERVER = smtplib.SMTP("smtp.gmail.com", 587)
-            SERVER.starttls()
-            SERVER.login(USERNAME, PASSWORD)
-            text = MSG.as_string()
-            SERVER.sendmail(USERNAME, ADRESS, text)
-            SERVER.quit()
+            server = smtplib.SMTP("smtp.gmail.com", 587)
+            server.starttls()
+            server.login(username, password)
+            text = msg.as_string()
+            server.sendmail(username, adress, text)
+            server.quit()
             print "Email sent correctly"
             raw_input("\nPress enter to continue...")
             self.menus()
@@ -211,5 +214,5 @@ class countriesandcapitals(object):
                 self.instructions()
                 print "Please insert a valid Option"
 
-ALL = countriesandcapitals()
+ALL = CountriesAndCapitals()
 ALL.menus()
